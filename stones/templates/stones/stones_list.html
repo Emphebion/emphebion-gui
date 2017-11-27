@@ -1,0 +1,9 @@
+{% if stones_list %}
+    <ul>
+    {% for stone in stones_list %}
+        <li><a href="{% url 'stones:stone_detail' stone.stone_id %}">{{ stone.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No stones are available.</p>
+{% endif %}

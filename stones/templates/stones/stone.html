@@ -1,0 +1,32 @@
+<p><a href="{% url 'stones:index' %}">&larr; Back to stone list</a></p>
+<p>Modifying access for <strong>{{stone.name}}</strong></p>
+
+<form action="{% url 'stones:stone_mod_access' stone.stone_id %}" method="post">
+  {% csrf_token %}
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        {% for access_type, access_type_name in access_types.items %}
+        <th>{{ access_type_name }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for player in players_list %}
+    {% with pid=player.pid %}
+      <tr>
+        <td>{{ player.name }}</td>
+        {% for access_type, access_type_name in access_types.items %}
+        <td><input type="radio" name="access{{ pid }}" id="access{{ pid }}_{{ access_type }}" value="{{ access_type }}" {% if accesses|get_item:pid == access_type %} checked="checked" {% endif %} />
+        <label for="access{{ pid }}_{{ access_type }}">{{ access_type_name }}</td>
+        {% endfor %}
+      </tr>
+    {% endwith %}
+    {% endfor %}
+    </tbody>
+  </table>
+  <p><input type="submit" value="Save" /></p>
+</form>
+
+
